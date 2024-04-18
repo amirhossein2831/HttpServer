@@ -1,6 +1,5 @@
 package org.example.Http;
 
-import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import org.example.Component.Controller.Controller;
 import org.example.Component.Interface.Crud;
@@ -32,6 +31,29 @@ public class HTTPServer {
 
         server.start();
         System.out.println("Server started on port " + port);
+    }
+
+    // handle crud and set the request
+    public void routeCrud(String name, Crud controller) {
+        server.createContext(name, exchange -> {
+            Controller c = (Controller) controller;
+            c.setRequest(new Request(exchange));
+            String method = exchange.getRequestMethod();
+
+            switch (method) {
+                case "GET" -> {
+                    if (c.getRequest().getParam() == null) {
+                        controller.list(exchange);
+                    } else if (c.getRequest().getParam().matches("\\d+")) {
+                        controller.detail(exchange);
+                    }
+                }
+                case "POST" -> controller.create(exchange);
+                case "PUT" -> controller.put(exchange);
+                case "PATCH" -> controller.patch(exchange);
+                case "DELETE" -> controller.delete(exchange);
+            }
+        });
     }
 
   
