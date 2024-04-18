@@ -1,5 +1,6 @@
 package org.example.Http;
 
+import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import org.example.Component.Controller.Controller;
 import org.example.Component.Interface.Crud;
@@ -56,5 +57,49 @@ public class HTTPServer {
         });
     }
 
-  
+    // need to handle the request inside the custom method
+    public void get(String name, HttpHandler handler) {
+        server.createContext(name, exchange -> {
+            String method = exchange.getRequestMethod();
+            if (method.equals("GET")) {
+                handler.handle(exchange);
+            }
+        });
+    }
+
+    public void post(String name, HttpHandler handler) {
+        server.createContext(name, exchange -> {
+            String method = exchange.getRequestMethod();
+            if (method.equals("POST")) {
+                handler.handle(exchange);
+            }
+        });
+    }
+
+    public void put(String name, HttpHandler handler) {
+        server.createContext(name, exchange -> {
+            String method = exchange.getRequestMethod();
+            if (method.equals("PUT")) {
+                handler.handle(exchange);
+            }
+        });
+    }
+
+    public void patch(String name, HttpHandler handler) {
+        server.createContext(name, exchange -> {
+            String method = exchange.getRequestMethod();
+            if (method.equals("PATCH")) {
+                handler.handle(exchange);
+            }
+        });
+    }
+
+    public void delete(String name, HttpHandler handler) {
+        server.createContext(name, exchange -> {
+            String method = exchange.getRequestMethod();
+            if (method.equals("DELETE")) {
+                handler.handle(exchange);
+            }
+        });
+    }
 }
