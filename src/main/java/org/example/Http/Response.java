@@ -28,10 +28,10 @@ public class Response {
         }
     }
 
-    public static void send(Request request, String res) {
+    public static void send(Request request, String res, int status) {
         request.getExchange().getResponseHeaders().set("Content-Type", "text/html");
         try {
-            request.getExchange().sendResponseHeaders(200, res.length());
+            request.getExchange().sendResponseHeaders(status, res.length());
             OutputStream os = request.getExchange().getResponseBody();
             os.write(res.getBytes());
             os.close();
@@ -40,13 +40,13 @@ public class Response {
         }
     }
 
-    public static void render(Request request, String filePath) {
+    public static void render(Request request, String filePath, int status) {
         filePath = "src/main/resources/templates/" + filePath;
         Path path = Paths.get(filePath);
         request.getExchange().getResponseHeaders().set("Content-Type", "text/html");
         try {
             String res =  Files.readString(path);
-            request.getExchange().sendResponseHeaders(200, res.length());
+            request.getExchange().sendResponseHeaders(status, res.length());
             OutputStream os = request.getExchange().getResponseBody();
             os.write(res.getBytes());
             os.close();
