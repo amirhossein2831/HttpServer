@@ -1,9 +1,9 @@
 package org.example.Http;
 
-import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import org.example.Component.Controller.Controller;
 import org.example.Component.Interface.Crud;
+import org.example.Component.Interface.RequestHandler;
 import org.example.Route.Route;
 
 import java.io.IOException;
@@ -58,47 +58,47 @@ public class HTTPServer {
     }
 
     // need to handle the request inside the custom method
-    public void get(String name, HttpHandler handler) {
+    public void get(String name, RequestHandler handler) {
         server.createContext(name, exchange -> {
             String method = exchange.getRequestMethod();
             if (method.equals("GET")) {
-                handler.handle(exchange);
+                handler.handle(new Request(exchange));
             }
         });
     }
 
-    public void post(String name, HttpHandler handler) {
+    public void post(String name, RequestHandler handler) {
         server.createContext(name, exchange -> {
             String method = exchange.getRequestMethod();
             if (method.equals("POST")) {
-                handler.handle(exchange);
+                handler.handle(new Request(exchange));
             }
         });
     }
 
-    public void put(String name, HttpHandler handler) {
+    public void put(String name, RequestHandler handler) {
         server.createContext(name, exchange -> {
             String method = exchange.getRequestMethod();
             if (method.equals("PUT")) {
-                handler.handle(exchange);
+                handler.handle(new Request(exchange));
             }
         });
     }
 
-    public void patch(String name, HttpHandler handler) {
+    public void patch(String name, RequestHandler handler) {
         server.createContext(name, exchange -> {
             String method = exchange.getRequestMethod();
             if (method.equals("PATCH")) {
-                handler.handle(exchange);
+                handler.handle(new Request(exchange));
             }
         });
     }
 
-    public void delete(String name, HttpHandler handler) {
+    public void delete(String name, RequestHandler handler) {
         server.createContext(name, exchange -> {
             String method = exchange.getRequestMethod();
             if (method.equals("DELETE")) {
-                handler.handle(exchange);
+                handler.handle(new Request(exchange));
             }
         });
     }
