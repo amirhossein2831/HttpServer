@@ -2,7 +2,6 @@ package org.example.Http;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.sun.net.httpserver.HttpExchange;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -28,6 +27,10 @@ public class Response {
         }
     }
 
+    public static void json(Request request, Object res) {
+        json(request, res, 200);
+    }
+
     public static void send(Request request, String res, int status) {
         request.getExchange().getResponseHeaders().set("Content-Type", "text/html");
         try {
@@ -40,12 +43,17 @@ public class Response {
         }
     }
 
+    public static void send(Request request, String res) {
+        send(request, res, 200);
+    }
+
+
     public static void render(Request request, String filePath, int status) {
         filePath = "src/main/resources/templates/" + filePath;
         Path path = Paths.get(filePath);
         request.getExchange().getResponseHeaders().set("Content-Type", "text/html");
         try {
-            String res =  Files.readString(path);
+            String res = Files.readString(path);
             request.getExchange().sendResponseHeaders(status, res.length());
             OutputStream os = request.getExchange().getResponseBody();
             os.write(res.getBytes());
@@ -53,6 +61,10 @@ public class Response {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static void render(Request request, String filePath) {
+        render(request, filePath, 200);
     }
 
 }
