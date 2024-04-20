@@ -1,17 +1,18 @@
 package org.example.Component.Interface;
 
 import com.sun.net.httpserver.HttpExchange;
+import org.example.Http.Request;
 
 public interface Crud {
-    void list(HttpExchange exchange);
+    void list(Request request);
 
-    void detail(HttpExchange exchange);
+    void detail(Request request);
 
-    void create(HttpExchange exchange);
+    void create(Request request);
 
-    void patch(HttpExchange exchange);
+    void patch(Request request);
 
-    void put(HttpExchange exchange);
+    void put(Request request);
 
-    void delete(HttpExchange exchange);
+    void delete(Request request);
 }

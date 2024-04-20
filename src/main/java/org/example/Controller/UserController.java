@@ -3,6 +3,7 @@ package org.example.Controller;
 import com.sun.net.httpserver.HttpExchange;
 import org.example.Component.Controller.Controller;
 import org.example.Component.Interface.Crud;
+import org.example.Http.Request;
 import org.example.Http.Response;
 import org.example.Model.User;
 
@@ -13,37 +14,37 @@ import java.util.Map;
 
 public class UserController extends Controller implements Crud {
 
-    public void list(HttpExchange exchange) {
+    public void list(Request request) {
         List<User> userList = new ArrayList<>();
         userList.add(new User("Alice", 25));
         userList.add(new User("Bob", 30));
         userList.add(new User("Charlie", 28));
 
-        Response.json(exchange, userList, 200);
+        Response.json(request.getExchange(), userList, 200);
     }
 
-    public void detail(HttpExchange exchange) {
+    public void detail(Request request) {
         Map<String, String> data = new HashMap<>();
         data.put("key1", "value1");
         data.put("key2", "value2");
 
-        Response.json(exchange, data, 200);
+        Response.json(request.getExchange(), data, 200);
     }
 
-    public void create(HttpExchange exchange) {
-    }
-
-    @Override
-    public void patch(HttpExchange exchange) {
-
+    public void create(Request request) {
     }
 
     @Override
-    public void put(HttpExchange exchange) {
+    public void patch(Request request) {
 
     }
 
-    public void delete(HttpExchange exchange) {
+    @Override
+    public void put(Request request) {
+
+    }
+
+    public void delete(Request request) {
 
     }
 

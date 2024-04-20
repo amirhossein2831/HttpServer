@@ -13,37 +13,36 @@ import java.util.List;
 public class JobController extends Controller implements Crud {
 
     @Override
-    public void list(HttpExchange exchange) {
+    public void list(Request request) {
         List<Job> jobList = new ArrayList<>();
         jobList.add(new Job("Software Engineer", "Develop software applications", 80000));
         jobList.add(new Job("Data Scientist", "Analyze and interpret complex data", 90000));
         jobList.add(new Job("Marketing Manager", "Create marketing campaigns", 75000));
 
-        Response.json(exchange, jobList, 200);
+        Response.json(request.getExchange(), jobList, 200);
     }
 
     @Override
-    public void detail(HttpExchange exchange) {
-
-    }
-
-    @Override
-    public void create(HttpExchange exchange) {
+    public void detail(Request request) {
 
     }
 
     @Override
-    public void patch(HttpExchange exchange) {
+    public void create(Request request) {
 
     }
 
     @Override
-    public void put(HttpExchange exchange) {
+    public void patch(Request request) {
 
     }
 
     @Override
-    public void delete(HttpExchange exchange) {
+    public void put(Request request) {
 
+    }
+
+    @Override
+    public void delete(Request request) {
     }
 }
