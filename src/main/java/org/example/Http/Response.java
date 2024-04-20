@@ -11,6 +11,9 @@ import java.nio.file.Paths;
 
 public class Response {
 
+    public static void json(Request request, Object res) {
+        json(request, res, 200);
+    }
 
     public static void json(Request request, Object res, int status) {
         Gson gson = new GsonBuilder().create();
@@ -27,8 +30,8 @@ public class Response {
         }
     }
 
-    public static void json(Request request, Object res) {
-        json(request, res, 200);
+    public static void send(Request request, String res) {
+        send(request, res, 200);
     }
 
     public static void send(Request request, String res, int status) {
@@ -43,10 +46,9 @@ public class Response {
         }
     }
 
-    public static void send(Request request, String res) {
-        send(request, res, 200);
+    public static void render(Request request, String filePath) {
+        render(request, filePath, 200);
     }
-
 
     public static void render(Request request, String filePath, int status) {
         filePath = "src/main/resources/templates/" + filePath;
@@ -62,9 +64,4 @@ public class Response {
             throw new RuntimeException(e);
         }
     }
-
-    public static void render(Request request, String filePath) {
-        render(request, filePath, 200);
-    }
-
 }
