@@ -19,7 +19,7 @@ public class JobController extends Controller implements Crud {
         jobList.add(new Job("Data Scientist", "Analyze and interpret complex data", 90000));
         jobList.add(new Job("Marketing Manager", "Create marketing campaigns", 75000));
 
-        Response.json(request.getExchange(), jobList, 200);
+        Response.json(request, jobList, 200);
     }
 
     @Override

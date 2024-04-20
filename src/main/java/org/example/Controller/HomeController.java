@@ -6,6 +6,6 @@ import org.example.Http.Response;
 
 public class HomeController extends Controller {
     public static void handleHome(Request request) {
-        Response.render(request.getExchange(), "index.html");
+        Response.render(request, "index.html");
     }
 }

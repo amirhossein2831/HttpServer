@@ -20,7 +20,7 @@ public class UserController extends Controller implements Crud {
         userList.add(new User("Bob", 30));
         userList.add(new User("Charlie", 28));
 
-        Response.json(request.getExchange(), userList, 200);
+        Response.json(request, userList, 200);
     }
 
     public void detail(Request request) {
@@ -28,7 +28,7 @@ public class UserController extends Controller implements Crud {
         data.put("key1", "value1");
         data.put("key2", "value2");
 
-        Response.json(request.getExchange(), data, 200);
+        Response.json(request, data, 200);
     }
 
     public void create(Request request) {

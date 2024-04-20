@@ -12,13 +12,14 @@ import java.nio.file.Paths;
 
 public class Response {
 
-    public static void json(HttpExchange exchange, Object res, int status) {
-        Gson gson = new GsonBuilder().create();
-        exchange.getResponseHeaders().set("Content-Type", "application/json");
-        try {
-            exchange.sendResponseHeaders(status, 0);
 
-            OutputStream outputStream = exchange.getResponseBody();
+    public static void json(Request request, Object res, int status) {
+        Gson gson = new GsonBuilder().create();
+        request.getExchange().getResponseHeaders().set("Content-Type", "application/json");
+        try {
+            request.getExchange().sendResponseHeaders(status, 0);
+
+            OutputStream outputStream = request.getExchange().getResponseBody();
             String json = gson.toJson(res);
             outputStream.write(json.getBytes());
             outputStream.close();
@@ -27,11 +28,11 @@ public class Response {
         }
     }
 
-    public static void send(HttpExchange exchange, String res) {
-        exchange.getResponseHeaders().set("Content-Type", "text/html");
+    public static void send(Request request, String res) {
+        request.getExchange().getResponseHeaders().set("Content-Type", "text/html");
         try {
-            exchange.sendResponseHeaders(200, res.length());
-            OutputStream os = exchange.getResponseBody();
+            request.getExchange().sendResponseHeaders(200, res.length());
+            OutputStream os = request.getExchange().getResponseBody();
             os.write(res.getBytes());
             os.close();
         } catch (IOException e) {
@@ -39,14 +40,14 @@ public class Response {
         }
     }
 
-    public static void render(HttpExchange exchange, String filePath) {
+    public static void render(Request request, String filePath) {
         filePath = "src/main/resources/templates/" + filePath;
         Path path = Paths.get(filePath);
-        exchange.getResponseHeaders().set("Content-Type", "text/html");
+        request.getExchange().getResponseHeaders().set("Content-Type", "text/html");
         try {
             String res =  Files.readString(path);
-            exchange.sendResponseHeaders(200, res.length());
-            OutputStream os = exchange.getResponseBody();
+            request.getExchange().sendResponseHeaders(200, res.length());
+            OutputStream os = request.getExchange().getResponseBody();
             os.write(res.getBytes());
             os.close();
         } catch (IOException e) {
