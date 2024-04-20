@@ -37,22 +37,20 @@ public class HTTPServer {
     // handle crud and set the request
     public void routeCrud(String name, Crud controller) {
         server.createContext(name, exchange -> {
-            Controller c = (Controller) controller;
-            c.setRequest(new Request(exchange));
-            String method = exchange.getRequestMethod();
+            Request request = new Request(exchange);
 
-            switch (method) {
+            switch (request.getMethod()) {
                 case "GET" -> {
-                    if (c.getRequest().getParam() == null) {
-                        controller.list(exchange);
-                    } else if (c.getRequest().getParam().matches("\\d+")) {
-                        controller.detail(exchange);
+                    if (request.getParam() == null) {
+                        controller.list(request);
+                    } else if (request.getParam().matches("\\d+")) {
+                        controller.detail(request);
                     }
                 }
-                case "POST" -> controller.create(exchange);
-                case "PUT" -> controller.put(exchange);
-                case "PATCH" -> controller.patch(exchange);
-                case "DELETE" -> controller.delete(exchange);
+                case "POST" -> controller.create(request);
+                case "PUT" -> controller.put(request);
+                case "PATCH" -> controller.patch(request);
+                case "DELETE" -> controller.delete(request);
             }
         });
     }
