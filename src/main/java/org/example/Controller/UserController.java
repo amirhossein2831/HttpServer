@@ -3,6 +3,7 @@ package org.example.Controller;
 import com.sun.net.httpserver.HttpExchange;
 import org.example.Component.Controller.Controller;
 import org.example.Component.Interface.Crud;
+import org.example.Http.HttpStatusCode;
 import org.example.Http.Request;
 import org.example.Http.Response;
 import org.example.Model.User;
@@ -20,7 +21,7 @@ public class UserController extends Controller implements Crud {
         userList.add(new User("Bob", 30));
         userList.add(new User("Charlie", 28));
 
-        Response.json(request, userList, 200);
+        Response.json(request, userList, HttpStatusCode.OK);
     }
 
     public void detail(Request request) {
@@ -28,7 +29,7 @@ public class UserController extends Controller implements Crud {
         data.put("key1", "value1");
         data.put("key2", "value2");
 
-        Response.json(request, data, 200);
+        Response.json(request, data, HttpStatusCode.OK);
     }
 
     public void create(Request request) {
