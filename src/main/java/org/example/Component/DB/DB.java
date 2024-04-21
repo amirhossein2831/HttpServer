@@ -1,6 +1,6 @@
 package org.example.Component.DB;
 
-import org.example.Component.Exception.EntityNotFoundException;
+import org.example.Component.Model.Model;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -21,50 +21,41 @@ public class DB {
         }
     }
 
-    public static List<?> all(Class<?> entity) {
-        try (Session session = sessionFactory.openSession()) {
-            return session.createQuery("FROM User", entity).getResultList();
-        } catch (Exception e) {
-            throw new EntityNotFoundException();
-        }
+    public static <T extends Model> List<T> all(Class<T> entity) {
+        Session session = sessionFactory.openSession();
+        List<T> result = session.createQuery("FROM User", entity).getResultList();
+        session.close();
+        return result;
     }
 
-    public static Object get(Class<?> entity, int id) {
-        try (Session session = sessionFactory.openSession()) {
-            return session.get(entity, id);
-        } catch (Exception e) {
-            throw new EntityNotFoundException();
-        }
+    public static <T extends Model> T get(Class<T> entity, int id) {
+        Session session = sessionFactory.openSession();
+        T result = session.get(entity, id);
+        session.close();
+        return result;
     }
 
-    public static void create(Object entity) {
-        try (Session session = sessionFactory.openSession()) {
-            Transaction transaction = session.beginTransaction();
-            session.persist(entity);
-            transaction.commit();
-        } catch (Exception e) {
-            throw new EntityNotFoundException();
-        }
+    public static <T extends Model> void create(T entity) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        session.persist(entity);
+        transaction.commit();
+        session.close();
     }
 
-    public static void update(Object record) {
-        try (Session session = sessionFactory.openSession()) {
-            Transaction transaction = session.beginTransaction();
-            session.merge(record);
-            transaction.commit();
-        } catch (Exception e) {
-            throw new EntityNotFoundException();
-        }
+    public static <T extends Model> void update(T entity) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        session.merge(entity);
+        transaction.commit();
+        session.close();
     }
 
-    public static void delete(Object record) {
-        try (Session session = sessionFactory.openSession()) {
-            Transaction transaction = session.beginTransaction();
-            session.remove(record);
-            transaction.commit();
-            System.out.println("Record deleted successfully: " + record.getClass().getSimpleName());
-        } catch (Exception e) {
-            throw new EntityNotFoundException();
-        }
+    public static <T extends Model> void delete(T entity) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        session.remove(entity);
+        transaction.commit();
+        session.close();
     }
 }
