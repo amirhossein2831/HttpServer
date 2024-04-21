@@ -6,13 +6,13 @@ import org.example.Http.Request;
 public interface Crud {
     void list(Request request);
 
-    void detail(Request request);
+    void detail(Request request, int id);
 
     void create(Request request);
 
-    void patch(Request request);
+    void patch(Request request, int id);
 
-    void put(Request request);
+    void put(Request request, int id);
 
-    void delete(Request request);
+    void delete(Request request, int id);
 }

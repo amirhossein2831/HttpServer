@@ -44,13 +44,13 @@ public class HTTPServer {
                     if (request.getParam() == null) {
                         controller.list(request);
                     } else if (request.getParam().matches("\\d+")) {
-                        controller.detail(request);
+                        controller.detail(request,Integer.parseInt(request.getParam()));
                     }
                 }
                 case "POST" -> controller.create(request);
-                case "PUT" -> controller.put(request);
-                case "PATCH" -> controller.patch(request);
-                case "DELETE" -> controller.delete(request);
+                case "PUT" -> controller.put(request, Integer.parseInt(request.getParam()));
+                case "PATCH" -> controller.patch(request, Integer.parseInt(request.getParam()));
+                case "DELETE" -> controller.delete(request, Integer.parseInt(request.getParam()));
             }
         });
     }
