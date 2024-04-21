@@ -1,7 +1,9 @@
 package org.example.Controller;
 
 import com.sun.net.httpserver.HttpExchange;
+import jakarta.persistence.Entity;
 import org.example.Component.Controller.Controller;
+import org.example.Component.DB.DB;
 import org.example.Component.Interface.Crud;
 import org.example.Http.HttpStatusCode;
 import org.example.Http.Request;
@@ -16,36 +18,34 @@ import java.util.Map;
 public class UserController extends Controller implements Crud {
 
     public void list(Request request) {
-        List<User> userList = new ArrayList<>();
-        userList.add(new User("Alice", 25));
-        userList.add(new User("Bob", 30));
-        userList.add(new User("Charlie", 28));
+        List<User> users = DB.all(User.class);
 
-        Response.json(request, userList, HttpStatusCode.OK);
+        Response.json(request, users, HttpStatusCode.OK);
     }
 
-    public void detail(Request request) {
-        Map<String, String> data = new HashMap<>();
-        data.put("key1", "value1");
-        data.put("key2", "value2");
-
-        Response.json(request, data, HttpStatusCode.OK);
+    public void detail(Request request, int id) {
+        try {
+            User user = DB.get(User.class, id);
+            Response.json(request, user, HttpStatusCode.OK);
+        } catch (NullPointerException e) {
+            Response.json(request, Response.Error("record not found"), HttpStatusCode.NOT_FOUND);
+        }
     }
 
     public void create(Request request) {
     }
 
     @Override
-    public void patch(Request request) {
+    public void patch(Request request, int id) {
 
     }
 
     @Override
-    public void put(Request request) {
+    public void put(Request request, int id) {
 
     }
 
-    public void delete(Request request) {
+    public void delete(Request request, int id) {
 
     }
 
