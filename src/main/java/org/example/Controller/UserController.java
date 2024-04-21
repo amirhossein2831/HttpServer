@@ -12,12 +12,14 @@ import java.util.List;
 
 public class UserController extends Controller implements Crud {
 
+    @Override
     public void list(Request request) {
         List<User> users = DB.all(User.class);
 
         Response.json(request, users, HttpStatusCode.OK);
     }
 
+    @Override
     public void detail(Request request, int id) {
         User user = DB.get(User.class, id);
 
@@ -27,7 +29,9 @@ public class UserController extends Controller implements Crud {
             Response.json(request, Response.Error("record now found with id: " + id), HttpStatusCode.NOT_FOUND);
     }
 
+    @Override
     public void create(Request request) {
+
     }
 
     @Override
@@ -40,6 +44,7 @@ public class UserController extends Controller implements Crud {
 
     }
 
+    @Override
     public void delete(Request request, int id) {
 
     }
