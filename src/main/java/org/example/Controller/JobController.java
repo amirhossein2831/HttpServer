@@ -24,7 +24,7 @@ public class JobController extends Controller implements Crud {
     }
 
     @Override
-    public void detail(Request request) {
+    public void detail(Request request,int id) {
 
     }
 
@@ -34,16 +34,16 @@ public class JobController extends Controller implements Crud {
     }
 
     @Override
-    public void patch(Request request) {
+    public void patch(Request request, int id) {
 
     }
 
     @Override
-    public void put(Request request) {
+    public void put(Request request, int id) {
 
     }
 
     @Override
-    public void delete(Request request) {
+    public void delete(Request request, int id) {
     }
 }

@@ -8,6 +8,8 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Response {
 
@@ -63,5 +65,11 @@ public class Response {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static Map<String , String> Error(String message) {
+        Map<String, String> error = new HashMap<>();
+        error.put("error", message);
+        return error;
     }
 }
