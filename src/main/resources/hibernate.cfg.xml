@@ -8,7 +8,7 @@
         <property name="hibernate.connection.username">root</property>
         <property name="hibernate.connection.password">password</property>
         <property name="hbm2ddl.auto">update</property>
-        <property name="hibernate.show_sql">true</property>
+
         <!-- Add more properties as needed -->
         <mapping class="org.example.Model.User"/>
         <mapping class="org.example.Model.Job"/>
