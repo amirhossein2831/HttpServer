@@ -26,5 +26,14 @@ public class DB {
         }
     }
 
+    public static Object get(Class<?> entity,int id) {
+        try (Session session = sessionFactory.openSession()) {
+            return session.get(entity, id);
+        } catch (Exception e) {
+            throw new EntityNotFoundException();
+        }
+    }
+
+
 
 }
