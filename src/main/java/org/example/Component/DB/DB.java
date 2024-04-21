@@ -34,6 +34,15 @@ public class DB {
         }
     }
 
+    public static void create(Object entity) {
+        try (Session session = sessionFactory.openSession()) {
+            Transaction transaction = session.beginTransaction();
+            session.persist(entity);
+            transaction.commit();
+        } catch (Exception e) {
+            throw new EntityNotFoundException();
+        }
+    }
 
 
 }
