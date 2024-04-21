@@ -1,0 +1,16 @@
+version: '3.9'
+
+services:
+  mysql:
+    image: mysql:latest
+    restart: always
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./data/db:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: "JavaHttp"
+      MYSQL_ROOT_PASSWORD: "password"
+
+volumes:
+  data:
