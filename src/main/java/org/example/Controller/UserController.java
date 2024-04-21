@@ -20,7 +20,7 @@ public class UserController extends Controller implements Crud {
 
     public void detail(Request request, int id) {
         User user = DB.get(User.class, id);
-        
+
         if (user != null)
             Response.json(request, user, HttpStatusCode.OK);
         else

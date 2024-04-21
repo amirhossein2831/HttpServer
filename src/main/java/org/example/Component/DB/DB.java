@@ -21,6 +21,11 @@ public class DB {
         }
     }
 
+    public static void initDb() {
+        Session session = sessionFactory.openSession();
+        session.close();
+    }
+
     public static <T extends Model> List<T> all(Class<T> entity) {
         Session session = sessionFactory.openSession();
         List<T> result = session.createQuery("FROM User", entity).getResultList();
