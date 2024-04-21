@@ -18,6 +18,13 @@ public class DB {
             throw new ExceptionInInitializerError(ex);
         }
     }
+    public static List<?> all(Class<?> entity) {
+        try (Session session = sessionFactory.openSession()) {
+            return session.createQuery("FROM User", entity).getResultList();
+        } catch (Exception e) {
+            throw new EntityNotFoundException();
+        }
+    }
 
 
 }
