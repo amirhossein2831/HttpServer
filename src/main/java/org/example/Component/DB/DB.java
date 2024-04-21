@@ -1,7 +1,9 @@
 package org.example.Component.DB;
 
 import org.example.Component.Exception.EntityNotFoundException;
-import org.hibernate.*;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
 import java.util.List;
@@ -18,6 +20,7 @@ public class DB {
             throw new ExceptionInInitializerError(ex);
         }
     }
+
     public static List<?> all(Class<?> entity) {
         try (Session session = sessionFactory.openSession()) {
             return session.createQuery("FROM User", entity).getResultList();
@@ -26,7 +29,7 @@ public class DB {
         }
     }
 
-    public static Object get(Class<?> entity,int id) {
+    public static Object get(Class<?> entity, int id) {
         try (Session session = sessionFactory.openSession()) {
             return session.get(entity, id);
         } catch (Exception e) {
@@ -44,5 +47,24 @@ public class DB {
         }
     }
 
+    public static void update(Object record) {
+        try (Session session = sessionFactory.openSession()) {
+            Transaction transaction = session.beginTransaction();
+            session.merge(record);
+            transaction.commit();
+        } catch (Exception e) {
+            throw new EntityNotFoundException();
+        }
+    }
 
+    public static void delete(Object record) {
+        try (Session session = sessionFactory.openSession()) {
+            Transaction transaction = session.beginTransaction();
+            session.remove(record);
+            transaction.commit();
+            System.out.println("Record deleted successfully: " + record.getClass().getSimpleName());
+        } catch (Exception e) {
+            throw new EntityNotFoundException();
+        }
+    }
 }
