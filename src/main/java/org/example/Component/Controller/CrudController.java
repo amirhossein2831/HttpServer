@@ -1,20 +1,20 @@
 package org.example.Component.Controller;
 
 import org.example.Component.DB.DB;
+import org.example.Component.Interface.Crud;
 import org.example.Component.Model.Model;
 import org.example.Http.HttpStatusCode;
 import org.example.Http.Request;
 import org.example.Http.Response;
-import org.example.Model.Job;
 
 import java.util.List;
 
-public abstract class Controller {
+public abstract class CrudController extends Controller implements Crud {
 
-   protected abstract <T extends Model>  Class<T> getEntity();
+   protected abstract Class<? extends Model> getEntity();
 
     public void list(Request request) {
-        List<?> records = DB.all(this.getEntity());
+        List<? extends Model> records = DB.all(this.getEntity());
 
         Response.json(request, records, HttpStatusCode.OK);
     }
