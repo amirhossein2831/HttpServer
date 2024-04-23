@@ -7,6 +7,7 @@ import org.example.Http.HttpStatusCode;
 import org.example.Http.Request;
 import org.example.Http.Response;
 
+import java.util.HashMap;
 import java.util.List;
 
 public abstract class CrudController extends Controller implements Crud {
@@ -41,5 +42,12 @@ public abstract class CrudController extends Controller implements Crud {
     }
 
     public void delete(Request request, int id) {
+        Model record = DB.get(this.getEntity(), id);
+        if (record != null){
+            DB.delete(record);
+            Response.json(request, new HashMap<>(), HttpStatusCode.NO_CONTENT);
+        }
+        else
+            Response.json(request, Response.Error("record not found with id: " + id), HttpStatusCode.NOT_FOUND);
     }
 }
