@@ -25,7 +25,7 @@ public abstract class CrudController extends Controller implements Crud {
         if (record != null)
             Response.json(request, record, HttpStatusCode.OK);
         else
-            Response.json(request, Response.Error("record now found with id: " + id), HttpStatusCode.NOT_FOUND);
+            Response.json(request, Response.Error("record not found with id: " + id), HttpStatusCode.NOT_FOUND);
     }
 
     public void create(Request request) {
