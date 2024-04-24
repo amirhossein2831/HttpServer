@@ -6,7 +6,6 @@ import org.example.Component.Model.Model;
 @Entity
 public class Job extends Model {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "title")
