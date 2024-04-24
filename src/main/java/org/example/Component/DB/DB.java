@@ -11,6 +11,7 @@ import org.hibernate.query.Query;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class DB {
     private static final SessionFactory sessionFactory;
@@ -46,26 +47,19 @@ public class DB {
     }
 
     public static <T extends Model> void create(T entity) {
-        Session session = sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
-        session.persist(entity);
-        transaction.commit();
-        session.close();
+        Session session = null;
+        Transaction transaction = null;
         try {
             session = sessionFactory.openSession();
             transaction = session.beginTransaction();
             session.persist(entity);
             transaction.commit();
         } catch (HibernateException e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
+            Objects.requireNonNull(transaction).rollback();
             throw new HibernateException("some thing went wrong when you try to create: "
                     + entity.getClass().getSimpleName());
         } finally {
-            if (session != null) {
-                session.close();
-            }
+            Objects.requireNonNull(session).close();
         }
     }
 
