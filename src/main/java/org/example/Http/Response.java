@@ -13,11 +13,11 @@ import java.util.Map;
 
 public class Response {
 
-    public static void json(Request request, Object res) {
-        json(request, res, 200);
+    public static Response json(Request request, Object res) {
+        return json(request, res, 200);
     }
 
-    public static void json(Request request, Object res, int status) {
+    public static Response json(Request request, Object res, int status) {
         Gson gson = new GsonBuilder().create();
         request.getExchange().getResponseHeaders().set("Content-Type", "application/json");
         try {
@@ -27,6 +27,7 @@ public class Response {
             String json = gson.toJson(res);
             outputStream.write(json.getBytes());
             outputStream.close();
+            return null;
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

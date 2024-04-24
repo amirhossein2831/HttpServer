@@ -17,67 +17,76 @@ public abstract class CrudController extends Controller implements Crud {
 
     protected abstract Class<? extends Model> getEntity();
 
-    public void list(Request request) {
+    public Response list(Request request) {
         List<? extends Model> records = DB.all(this.getEntity());
 
-        Response.json(request, records, HttpStatusCode.OK);
+        return Response.json(request, records, HttpStatusCode.OK);
     }
 
-    public void detail(Request request, int id) {
+    public Response detail(Request request, int id) {
         Model record = DB.get(this.getEntity(), id);
+        if (record == null)
+            return Response.json(request, Response.Error("record not found with id: " + id), HttpStatusCode.NOT_FOUND);
 
-        if (record != null)
-            Response.json(request, record, HttpStatusCode.OK);
-        else
-            Response.json(request, Response.Error("record not found with id: " + id), HttpStatusCode.NOT_FOUND);
+        return Response.json(request, record, HttpStatusCode.OK);
     }
 
     // TODO need to check validation
-    public void create(Request request) {
+    public Response create(Request request) {
         Model record = request.deserialize(request.getBody(), this.getEntity(), DB.getLastId(this.getEntity()));
+        Map<String, String> errors = Validator.validate(record);
+
+        if (!errors.isEmpty())
+            return Response.json(request, errors, HttpStatusCode.CREATED);
+
+        DB.create(record);
+        return Response.json(request, record, HttpStatusCode.CREATED);
+    }
+
+    // TODO need to check validation
+    public Response patch(Request request, int id) {
+        Model record = DB.get(this.getEntity(), id);
+        if (record == null)
+            return Response.json(request, Response.Error("record not found with id: " + id), HttpStatusCode.NOT_FOUND);
+
+        Map<String, Object> body = request.deserialize(request.getBody());
+        DB.update(record, body);
 
         Map<String, String> errors = Validator.validate(record);
-        if (errors.isEmpty()) {
-            DB.create(record);
-            Response.json(request, record, HttpStatusCode.CREATED);
-        } else
-            Response.json(request, errors, HttpStatusCode.CREATED);
-    }
 
-    // TODO need to check validation
-    public void patch(Request request, int id) {
-        Model record = DB.get(this.getEntity(), id);
-        if (record != null) {
-            Map<String, Object> body = request.deserialize(request.getBody());
+        if (!errors.isEmpty())
+            return Response.json(request, errors, HttpStatusCode.CREATED);
 
-            DB.update(record, body);
-
-            Response.json(request, record, HttpStatusCode.OK);
-        } else
-            Response.json(request, Response.Error("record not found with id: " + id), HttpStatusCode.NOT_FOUND);
+        return Response.json(request, record, HttpStatusCode.OK);
     }
 
 
     // TODO need to check validation
-    public void put(Request request, int id) {
+    public Response put(Request request, int id) {
         Model record = DB.get(this.getEntity(), id);
-        if (record != null) {
-            Model updatedRecord = request.deserialize(request.getBody(), this.getEntity(), (long) id);
-            if (AllFieldsRequire.check(updatedRecord)) {
-                DB.update(updatedRecord);
-                Response.json(request, updatedRecord, HttpStatusCode.OK);
-            } else
-                Response.json(request, Response.Error("All Field are required" + id), HttpStatusCode.NOT_FOUND);
-        } else
-            Response.json(request, Response.Error("record not found with id: " + id), HttpStatusCode.NOT_FOUND);
+        if (record == null)
+            return Response.json(request, Response.Error("record not found with id: " + id), HttpStatusCode.NOT_FOUND);
+
+        Model updatedRecord = request.deserialize(request.getBody(), this.getEntity(), (long) id);
+        if (!AllFieldsRequire.check(updatedRecord))
+            return Response.json(request, Response.Error("All Field are required" + id), HttpStatusCode.NOT_FOUND);
+
+        Map<String, String> errors = Validator.validate(updatedRecord);
+
+        if (!errors.isEmpty())
+            return Response.json(request, errors, HttpStatusCode.CREATED);
+
+        DB.update(updatedRecord);
+        return Response.json(request, updatedRecord, HttpStatusCode.OK);
     }
 
-    public void delete(Request request, int id) {
+    public Response delete(Request request, int id) {
         Model record = DB.get(this.getEntity(), id);
-        if (record != null) {
-            DB.delete(record);
-            Response.json(request, new HashMap<>(), HttpStatusCode.NO_CONTENT);
-        } else
-            Response.json(request, Response.Error("record not found with id: " + id), HttpStatusCode.NOT_FOUND);
+
+        if (record == null)
+            return Response.json(request, Response.Error("record not found with id: " + id), HttpStatusCode.NOT_FOUND);
+
+        DB.delete(record);
+        return Response.json(request, new HashMap<>(), HttpStatusCode.NO_CONTENT);
     }
 }
