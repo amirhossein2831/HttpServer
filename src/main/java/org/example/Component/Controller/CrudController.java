@@ -31,7 +31,6 @@ public abstract class CrudController extends Controller implements Crud {
         return Response.json(request, record, HttpStatusCode.OK);
     }
 
-    // TODO need to check validation
     public Response create(Request request) {
         Model record = request.deserialize(request.getBody(), this.getEntity(), DB.getLastId(this.getEntity()));
         Map<String, String> errors = Validator.validate(record);
@@ -61,7 +60,6 @@ public abstract class CrudController extends Controller implements Crud {
     }
 
 
-    // TODO need to check validation
     public Response put(Request request, int id) {
         Model record = DB.get(this.getEntity(), id);
         if (record == null)

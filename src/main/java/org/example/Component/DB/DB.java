@@ -33,7 +33,6 @@ public class DB {
 
     public static <T extends Model> List<T> all(Class<T> entity) {
         Session session = sessionFactory.openSession();
-        System.out.println();
         List<T> result = session.createQuery("FROM " + entity.getName(), entity).getResultList();
         session.close();
         return result;

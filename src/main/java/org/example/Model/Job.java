@@ -10,13 +10,13 @@ public class Job extends Model {
     @Id
     private Long id;
 
-    @Column(name = "title")
+    @Column
     private String title;
 
-    @Column(name = "description")
+    @Column
     private String description;
 
-    @Column(name = "salary")
+    @Column
     private Double salary;
 
     public Job() {

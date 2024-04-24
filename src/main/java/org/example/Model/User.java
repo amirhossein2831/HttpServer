@@ -13,16 +13,15 @@ public class User extends Model {
     private String name;
 
     @Column
-    private Integer age;
+    private String age;
 
-    @Column
-    @Email
+    @Column @Email
     private String email;
 
     public User() {
     }
 
-    public User(String name, Integer age, String email) {
+    public User(String name, String age, String email) {
         this.name = name;
         this.age = age;
         this.email = email;
@@ -44,11 +43,11 @@ public class User extends Model {
         this.name = name;
     }
 
-    public Integer getAge() {
+    public String getAge() {
         return age;
     }
 
-    public void setAge(Integer age) {
+    public void setAge(String age) {
         this.age = age;
     }
 
