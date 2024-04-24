@@ -35,11 +35,7 @@ public abstract class CrudController extends Controller implements Crud {
     public void create(Request request) {
         Model record = request.deserialize(request.getBody(), this.getEntity(), DB.getLastId(this.getEntity()));
 
-        try {
-            DB.create(record);
-        } catch (HibernateException e) {
-            Response.json(request, Response.Error(e.getMessage()), HttpStatusCode.CREATED);
-        }
+        DB.create(record);
 
         Response.json(request, record, HttpStatusCode.CREATED);
     }

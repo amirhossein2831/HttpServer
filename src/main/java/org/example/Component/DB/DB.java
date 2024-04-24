@@ -47,20 +47,11 @@ public class DB {
     }
 
     public static <T extends Model> void create(T entity) {
-        Session session = null;
-        Transaction transaction = null;
-        try {
-            session = sessionFactory.openSession();
-            transaction = session.beginTransaction();
-            session.persist(entity);
-            transaction.commit();
-        } catch (HibernateException e) {
-            Objects.requireNonNull(transaction).rollback();
-            throw new HibernateException("some thing went wrong when you try to create: "
-                    + entity.getClass().getSimpleName());
-        } finally {
-            Objects.requireNonNull(session).close();
-        }
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        session.persist(entity);
+        transaction.commit();
+        session.close();
     }
 
     public static <T extends Model> void update(T entity, Map<String, Object> body) {
