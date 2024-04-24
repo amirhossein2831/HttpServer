@@ -6,6 +6,7 @@ import org.example.Component.Model.Model;
 import org.example.Http.HttpStatusCode;
 import org.example.Http.Request;
 import org.example.Http.Response;
+import org.hibernate.HibernateException;
 
 import java.util.HashMap;
 import java.util.List;
@@ -34,7 +35,11 @@ public abstract class CrudController extends Controller implements Crud {
     public void create(Request request) {
         Model record = request.deserialize(request.getBody(), this.getEntity(), DB.getLastId(this.getEntity()));
 
-        DB.create(record);
+        try {
+            DB.create(record);
+        } catch (HibernateException e) {
+            Response.json(request, Response.Error(e.getMessage()), HttpStatusCode.CREATED);
+        }
 
         Response.json(request, record, HttpStatusCode.CREATED);
     }

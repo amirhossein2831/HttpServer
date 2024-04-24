@@ -1,6 +1,7 @@
 package org.example.Component.DB;
 
 import org.example.Component.Model.Model;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -50,6 +51,22 @@ public class DB {
         session.persist(entity);
         transaction.commit();
         session.close();
+        try {
+            session = sessionFactory.openSession();
+            transaction = session.beginTransaction();
+            session.persist(entity);
+            transaction.commit();
+        } catch (HibernateException e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new HibernateException("some thing went wrong when you try to create: "
+                    + entity.getClass().getSimpleName());
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
     }
 
     public static <T extends Model> void update(T entity, Map<String, Object> body) {
