@@ -3,10 +3,10 @@ package org.example.Component.Controller;
 import org.example.Component.DB.DB;
 import org.example.Component.Interface.Crud;
 import org.example.Component.Model.Model;
+import org.example.Component.Rule.AllFieldsRequire;
 import org.example.Http.HttpStatusCode;
 import org.example.Http.Request;
 import org.example.Http.Response;
-import org.hibernate.HibernateException;
 
 import java.util.HashMap;
 import java.util.List;
@@ -59,10 +59,11 @@ public abstract class CrudController extends Controller implements Crud {
         Model record = DB.get(this.getEntity(), id);
         if (record != null) {
             Model updatedRecord = request.deserialize(request.getBody(), this.getEntity(), (long) id);
-
-            DB.update(updatedRecord);
-
-            Response.json(request, updatedRecord, HttpStatusCode.OK);
+            if (AllFieldsRequire.check(updatedRecord)) {
+                DB.update(updatedRecord);
+                Response.json(request, updatedRecord, HttpStatusCode.OK);
+            } else
+                Response.json(request, Response.Error("All Field are required" + id), HttpStatusCode.NOT_FOUND);
         } else
             Response.json(request, Response.Error("record not found with id: " + id), HttpStatusCode.NOT_FOUND);
     }
