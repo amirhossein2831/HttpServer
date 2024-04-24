@@ -1,6 +1,7 @@
 package org.example.Model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import org.example.Component.Model.Model;
 
 @Entity
@@ -8,18 +9,23 @@ public class User extends Model {
     @Id
     private Long id;
 
-    @Column(name = "name")
+    @Column
     private String name;
 
-    @Column(name = "age")
+    @Column
     private Integer age;
+
+    @Column
+    @Email
+    private String email;
 
     public User() {
     }
 
-    public User(String name, Integer age) {
+    public User(String name, Integer age, String email) {
         this.name = name;
         this.age = age;
+        this.email = email;
     }
 
     public Long getId() {
@@ -44,5 +50,13 @@ public class User extends Model {
 
     public void setAge(Integer age) {
         this.age = age;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
