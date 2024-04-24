@@ -4,6 +4,7 @@ import org.example.Component.DB.DB;
 import org.example.Component.Interface.Crud;
 import org.example.Component.Model.Model;
 import org.example.Component.Rule.AllFieldsRequire;
+import org.example.Component.Validator.Validator;
 import org.example.Http.HttpStatusCode;
 import org.example.Http.Request;
 import org.example.Http.Response;
@@ -35,9 +36,12 @@ public abstract class CrudController extends Controller implements Crud {
     public void create(Request request) {
         Model record = request.deserialize(request.getBody(), this.getEntity(), DB.getLastId(this.getEntity()));
 
-        DB.create(record);
-
-        Response.json(request, record, HttpStatusCode.CREATED);
+        Map<String, String> errors = Validator.validate(record);
+        if (errors.isEmpty()) {
+            DB.create(record);
+            Response.json(request, record, HttpStatusCode.CREATED);
+        } else
+            Response.json(request, errors, HttpStatusCode.CREATED);
     }
 
     // TODO need to check validation
