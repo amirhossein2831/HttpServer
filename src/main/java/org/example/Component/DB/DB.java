@@ -5,8 +5,11 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.query.Query;
 
+import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Map;
 
 public class DB {
     private static final SessionFactory sessionFactory;
@@ -49,6 +52,24 @@ public class DB {
         session.close();
     }
 
+    public static <T extends Model> void update(T entity, Map<String, Object> body) {
+        body.forEach((k, v) -> {
+            try {
+                Field field = entity.getClass().getDeclaredField(k);
+                field.setAccessible(true);
+                field.set(entity, v);
+            } catch (NoSuchFieldException | IllegalAccessException e) {
+                System.out.println(e.getMessage());
+            }
+        });
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        session.merge(entity);
+        transaction.commit();
+        session.close();
+    }
+
+
     public static <T extends Model> void update(T entity) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
@@ -63,5 +84,13 @@ public class DB {
         session.remove(entity);
         transaction.commit();
         session.close();
+    }
+
+    public static <T extends Model> Long getLastId(Class<T> entity) {
+        Session session = sessionFactory.openSession();
+        Query<T> query = session.createQuery("FROM " + entity.getName() + " ORDER BY id DESC", entity);
+        query.setMaxResults(1);
+        T record = query.uniqueResult();
+        return record == null ? 1 : record.getId() + 1;
     }
 }
