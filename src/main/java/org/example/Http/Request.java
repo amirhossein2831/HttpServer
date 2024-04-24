@@ -1,7 +1,10 @@
 package org.example.Http;
 
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.sun.net.httpserver.HttpExchange;
+import org.example.Component.Model.Model;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -116,5 +119,16 @@ public class Request {
 
     public String getParam() {
         return param;
+    }
+
+    public Model deserialize(String json, Class<? extends Model> clazz, Long id) {
+        Model model = new Gson().fromJson(json, clazz);
+        model.setId(id);
+        return model;
+    }
+
+    public Map<String, Object> deserialize(String json) {
+        return new Gson().fromJson(json, new TypeToken<Map<String, Object>>() {
+        }.getType());
     }
 }
