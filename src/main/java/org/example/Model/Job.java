@@ -1,6 +1,8 @@
 package org.example.Model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import org.example.Component.Model.Model;
 
 @Entity
@@ -15,13 +17,13 @@ public class Job extends Model {
     private String description;
 
     @Column(name = "salary")
-    private double salary;
+    private Double salary;
 
     public Job() {
 
     }
 
-    public Job(String title, String description, double salary) {
+    public Job(String title, String description, Double salary) {
         this.title = title;
         this.description = description;
         this.salary = salary;
@@ -51,11 +53,11 @@ public class Job extends Model {
         this.description = description;
     }
 
-    public double getSalary() {
+    public Double getSalary() {
         return salary;
     }
 
-    public void setSalary(double salary) {
+    public void setSalary(Double salary) {
         this.salary = salary;
     }
 }
