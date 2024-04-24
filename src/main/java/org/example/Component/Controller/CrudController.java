@@ -1,17 +1,15 @@
 package org.example.Component.Controller;
 
-import com.google.gson.Gson;
 import org.example.Component.DB.DB;
 import org.example.Component.Interface.Crud;
 import org.example.Component.Model.Model;
 import org.example.Http.HttpStatusCode;
 import org.example.Http.Request;
 import org.example.Http.Response;
-import org.example.Model.Job;
-import org.example.Model.User;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public abstract class CrudController extends Controller implements Crud {
 
@@ -32,22 +30,34 @@ public abstract class CrudController extends Controller implements Crud {
             Response.json(request, Response.Error("record not found with id: " + id), HttpStatusCode.NOT_FOUND);
     }
 
+    // TODO need to check validation
     public void create(Request request) {
+        Model record = request.deserialize(request.getBody(), this.getEntity(), DB.getLastId(this.getEntity()));
 
+        DB.create(record);
+
+        Response.json(request, record, HttpStatusCode.CREATED);
     }
 
-
-
+    // TODO need to check validation
     public void patch(Request request, int id) {
+        Model record = DB.get(this.getEntity(), id);
+        if (record != null) {
+            Map<String, Object> body = request.deserialize(request.getBody());
 
+            DB.update(record, body);
+
+            Response.json(request, record, HttpStatusCode.OK);
+        } else
+            Response.json(request, Response.Error("record not found with id: " + id), HttpStatusCode.NOT_FOUND);
     }
 
+
+    // TODO need to check validation
     public void put(Request request, int id) {
         Model record = DB.get(this.getEntity(), id);
         if (record != null) {
-            Model updatedRecord = deserializeRequest(request.getBody(),this.getEntity());
-
-            updatedRecord.setId((long) id);
+            Model updatedRecord = request.deserialize(request.getBody(), this.getEntity(), (long) id);
 
             DB.update(updatedRecord);
 
@@ -63,9 +73,5 @@ public abstract class CrudController extends Controller implements Crud {
             Response.json(request, new HashMap<>(), HttpStatusCode.NO_CONTENT);
         } else
             Response.json(request, Response.Error("record not found with id: " + id), HttpStatusCode.NOT_FOUND);
-    }
-
-    private Model deserializeRequest(String json, Class<? extends Model> clazz) {
-        return new Gson().fromJson(json, clazz);
     }
 }
