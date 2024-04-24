@@ -53,24 +53,6 @@ public class DB {
         session.close();
     }
 
-    public static <T extends Model> void update(T entity, Map<String, Object> body) {
-        body.forEach((k, v) -> {
-            try {
-                Field field = entity.getClass().getDeclaredField(k);
-                field.setAccessible(true);
-                field.set(entity, v);
-            } catch (NoSuchFieldException | IllegalAccessException e) {
-                System.out.println(e.getMessage());
-            }
-        });
-        Session session = sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
-        session.merge(entity);
-        transaction.commit();
-        session.close();
-    }
-
-
     public static <T extends Model> void update(T entity) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();

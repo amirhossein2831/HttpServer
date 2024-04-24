@@ -42,23 +42,22 @@ public abstract class CrudController extends Controller implements Crud {
         return Response.json(request, record, HttpStatusCode.CREATED);
     }
 
-    // TODO need to check validation
     public Response patch(Request request, int id) {
         Model record = DB.get(this.getEntity(), id);
         if (record == null)
             return Response.json(request, Response.Error("record not found with id: " + id), HttpStatusCode.NOT_FOUND);
 
         Map<String, Object> body = request.deserialize(request.getBody());
-        DB.update(record, body);
+        Model.update(record, body);
 
         Map<String, String> errors = Validator.validate(record);
 
         if (!errors.isEmpty())
             return Response.json(request, errors, HttpStatusCode.CREATED);
 
+        DB.update(record);
         return Response.json(request, record, HttpStatusCode.OK);
     }
-
 
     public Response put(Request request, int id) {
         Model record = DB.get(this.getEntity(), id);
