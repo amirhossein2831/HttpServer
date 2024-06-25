@@ -9,6 +9,7 @@ target/
 *.iml
 *.ipr
 data
+TODO
 
 ### Eclipse ###
 .apt_generated
