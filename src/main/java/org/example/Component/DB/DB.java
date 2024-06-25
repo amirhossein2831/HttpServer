@@ -76,4 +76,12 @@ public class DB {
         T record = query.uniqueResult();
         return record == null ? 1 : record.getId() + 1;
     }
+
+    public static <T> T getByColumnValue(Class<T> entityClass, String columnName, Object columnValue) {
+        Session session = sessionFactory.openSession();
+        Query<T> query = session.createQuery("FROM " + entityClass.getName() + " WHERE " + columnName + " = :value", entityClass);
+        query.setParameter("value", columnValue);
+        query.setMaxResults(1);
+        return query.uniqueResult();
+    }
 }

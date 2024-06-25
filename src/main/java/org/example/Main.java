@@ -10,6 +10,6 @@ public class Main {
         HTTPServer server = HTTPServer.getInstance();
         DB.initDb();
 
-        server.createServer(8000,10);
+        server.createServer(8001,10);
     }
 }

@@ -36,7 +36,7 @@ public abstract class CrudController extends Controller implements Crud {
         Map<String, String> errors = Validator.validate(record);
 
         if (!errors.isEmpty())
-            return Response.json(request, errors, HttpStatusCode.CREATED);
+            return Response.json(request, errors, HttpStatusCode.BAD_REQUEST);
 
         DB.create(record);
         return Response.json(request, record, HttpStatusCode.CREATED);
@@ -53,7 +53,7 @@ public abstract class CrudController extends Controller implements Crud {
         Map<String, String> errors = Validator.validate(record);
 
         if (!errors.isEmpty())
-            return Response.json(request, errors, HttpStatusCode.CREATED);
+            return Response.json(request, errors, HttpStatusCode.BAD_REQUEST);
 
         DB.update(record);
         return Response.json(request, record, HttpStatusCode.OK);
@@ -71,7 +71,7 @@ public abstract class CrudController extends Controller implements Crud {
         Map<String, String> errors = Validator.validate(updatedRecord);
 
         if (!errors.isEmpty())
-            return Response.json(request, errors, HttpStatusCode.CREATED);
+            return Response.json(request, errors, HttpStatusCode.BAD_REQUEST);
 
         DB.update(updatedRecord);
         return Response.json(request, updatedRecord, HttpStatusCode.OK);

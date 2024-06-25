@@ -65,6 +65,19 @@ public class HTTPServer {
         });
     }
 
+    // need to handle the request inside the custom method
+    public void show(String name, RequestHandler handler) {
+        server.createContext(name, exchange -> {
+            Request request = new Request(exchange);
+            String method = exchange.getRequestMethod();
+            if (method.equals("GET")) {
+                if (request.getParam().matches("\\d+")) {
+                    handler.handle(request);
+                }
+            }
+        });
+    }
+
     public void post(String name, RequestHandler handler) {
         server.createContext(name, exchange -> {
             String method = exchange.getRequestMethod();
@@ -100,4 +113,5 @@ public class HTTPServer {
             }
         });
     }
+
 }

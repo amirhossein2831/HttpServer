@@ -12,5 +12,6 @@
         <!-- Add more properties as needed -->
         <mapping class="org.example.Model.User"/>
         <mapping class="org.example.Model.Job"/>
+        <mapping class="org.example.Model.Profile"/>
     </session-factory>
 </hibernate-configuration>
