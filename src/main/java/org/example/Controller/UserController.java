@@ -22,10 +22,6 @@ public class UserController extends CrudController {
         Model record = request.deserialize(request.getBody(), this.getEntity(), DB.getLastId(this.getEntity()));
         User user = (User) record;
         Map<String, String> errors = Validator.validate(record);
-
-        if (!errors.isEmpty())
-            return Response.json(request, errors, HttpStatusCode.BAD_REQUEST);
-
         if (!errors.isEmpty())
             return Response.json(request, errors, HttpStatusCode.BAD_REQUEST);
 
