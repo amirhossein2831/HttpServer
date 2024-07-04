@@ -61,10 +61,13 @@ public class Profile extends Model {
     @Email
     private String email;
 
+    @Column
+    private String skills;
+
     public Profile() {
     }
 
-    public Profile(String profilePhoto, String bio, String address, String link, String backgroundPhoto, String profession, String location, String phoneNumber, String firstName, String lastName, String additionalName, String email) {
+    public Profile(String profilePhoto, String bio, String address, String link, String backgroundPhoto, String profession, String location, String phoneNumber, String firstName, String lastName, String additionalName, String email,String skills) {
         this.profilePhoto = profilePhoto;
         Bio = bio;
         this.address = address;
@@ -77,6 +80,7 @@ public class Profile extends Model {
         this.lastName = lastName;
         this.additionalName = additionalName;
         this.email = email;
+        this.skills = skills;
     }
 
     @Override
@@ -183,5 +187,13 @@ public class Profile extends Model {
 
     public void setEmail(@Email String email) {
         this.email = email;
+    }
+
+    public String getSkills() {
+        return skills;
+    }
+
+    public void setSkills(String skills) {
+        this.skills = skills;
     }
 }
