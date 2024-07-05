@@ -13,5 +13,6 @@
         <mapping class="org.example.Model.User"/>
         <mapping class="org.example.Model.Job"/>
         <mapping class="org.example.Model.Profile"/>
+        <mapping class="org.example.Model.Post"/>
     </session-factory>
 </hibernate-configuration>

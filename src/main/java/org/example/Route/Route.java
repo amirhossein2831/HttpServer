@@ -16,5 +16,6 @@ public class Route {
         server.routeCrud("/users", new UserController());
         server.routeCrud("/jobs", new JobController());
         server.routeCrud("/profile", new ProfileController());
+        server.routeCrud("/posts", new PostController());
     }
 }
