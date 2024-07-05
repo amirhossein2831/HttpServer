@@ -8,11 +8,12 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
 import org.example.Component.Model.Model;
 
+import java.util.Date;
+
 @Entity
 public class Profile extends Model {
     @Id
     private Long id;
-
 
     @Column
     private String profilePhoto;
@@ -36,9 +37,33 @@ public class Profile extends Model {
     @Size(max = 60)
     private String profession;
 
+
+    @Column
+    @Size(max = 60)
+    private String company;
+
+    @Column
+    @Size(max = 60)
+    private String jobType;
+
+    @Column
+    @Size(max = 60)
+    private String jobState;
+
+    @Column
+    @Size(max = 200)
+    private String companyAddress;
+
     @Column
     @Size(max = 60)
     private String location;
+
+    @Column
+    private String startTime;
+
+
+    @Column
+    private String endTime;
 
     @Column
     @Size(max = 11)
@@ -67,14 +92,20 @@ public class Profile extends Model {
     public Profile() {
     }
 
-    public Profile(String profilePhoto, String bio, String address, String link, String backgroundPhoto, String profession, String location, String phoneNumber, String firstName, String lastName, String additionalName, String email,String skills) {
+    public Profile(String profilePhoto, String bio, String address, String link, String backgroundPhoto, String profession, String company, String jobType, String jobState, String companyAddress, String location, String startTime, String endTime, String phoneNumber, String firstName, String lastName, String additionalName, String email, String skills) {
         this.profilePhoto = profilePhoto;
         Bio = bio;
         this.address = address;
         this.link = link;
         this.backgroundPhoto = backgroundPhoto;
         this.profession = profession;
+        this.company = company;
+        this.jobType = jobType;
+        this.jobState = jobState;
+        this.companyAddress = companyAddress;
         this.location = location;
+        this.startTime = startTime;
+        this.endTime = endTime;
         this.phoneNumber = phoneNumber;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -141,12 +172,60 @@ public class Profile extends Model {
         this.profession = profession;
     }
 
+    public @Size(max = 60) String getCompany() {
+        return company;
+    }
+
+    public void setCompany(@Size(max = 60) String company) {
+        this.company = company;
+    }
+
+    public @Size(max = 60) String getJobType() {
+        return jobType;
+    }
+
+    public void setJobType(@Size(max = 60) String jobType) {
+        this.jobType = jobType;
+    }
+
+    public @Size(max = 60) String getJobState() {
+        return jobState;
+    }
+
+    public void setJobState(@Size(max = 60) String jobState) {
+        this.jobState = jobState;
+    }
+
+    public @Size(max = 200) String getCompanyAddress() {
+        return companyAddress;
+    }
+
+    public void setCompanyAddress(@Size(max = 200) String companyAddress) {
+        this.companyAddress = companyAddress;
+    }
+
     public @Size(max = 60) String getLocation() {
         return location;
     }
 
     public void setLocation(@Size(max = 60) String location) {
         this.location = location;
+    }
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
     }
 
     public @Size(max = 11) String getPhoneNumber() {

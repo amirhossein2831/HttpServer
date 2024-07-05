@@ -10,6 +10,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Type;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
@@ -130,5 +131,11 @@ public class Request {
     public Map<String, Object> deserialize(String json) {
         return new Gson().fromJson(json, new TypeToken<Map<String, Object>>() {
         }.getType());
+    }
+    public Map<String, Object> deserializeToMap(String jsonString) {
+        Gson gson = new Gson();
+        Type type = new TypeToken<Map<String, Object>>() {
+        }.getType();
+        return gson.fromJson(jsonString, type);
     }
 }

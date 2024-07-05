@@ -24,6 +24,4 @@ public class LoginController extends Controller {
         return Response.json(request,record);
 
     }
-
-
 }

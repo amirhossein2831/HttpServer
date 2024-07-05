@@ -1,5 +1,7 @@
 package org.example.Component.Controller;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import org.example.Component.DB.DB;
 import org.example.Component.Interface.Crud;
 import org.example.Component.Model.Model;
@@ -9,6 +11,7 @@ import org.example.Http.HttpStatusCode;
 import org.example.Http.Request;
 import org.example.Http.Response;
 
+import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
